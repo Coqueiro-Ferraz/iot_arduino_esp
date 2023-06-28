@@ -14,6 +14,7 @@ void onBotaoChange();
 void onLedChange();*/
 
 int temp;
+int umid;
 bool botao;
 bool led;
 
@@ -23,6 +24,7 @@ void initProperties(){
   ArduinoCloud.setSecretDeviceKey(DEVICE_KEY);
   ArduinoCloud.addProperty(temp, READWRITE, ON_CHANGE, NULL);
   ArduinoCloud.addProperty(botao, READWRITE, ON_CHANGE, NULL);
+  ArduinoCloud.addProperty(umid, READWRITE, ON_CHANGE, NULL);
   ArduinoCloud.addProperty(led, READWRITE, ON_CHANGE, NULL);
 
 }
