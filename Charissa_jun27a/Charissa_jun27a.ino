@@ -28,6 +28,9 @@ void pisca(int vezes)
 void barom()
 {  
     Serial.print("Temperatura: "); //Imprime O Texto No Monitor Serial
+    temp = bmp.readTemperature();
+    ArduinoCloud.update();
+    
     Serial.print(bmp.readTemperature()); //Imprime No Monitor Serial A Temperatura
     Serial.println(" *C (Grau Celsius)"); //Imprime O Texto No Monitor Serial
         
@@ -73,20 +76,20 @@ void setup() {
 void loop() {
   
   //medido = DHT.Humidity;
-  if(count == 500)
+  if(count == 5)
   {
-    count = 0;/*
+    count = 0;
     DHT.read11(pinoDHT11);
 
     Serial.print("H: "); 
     Serial.print(DHT.humidity);
     Serial.print("% / T: "); 
     Serial.print(DHT.temperature,0);
-    Serial.print("C\n"); 
+    Serial.print("°C\n"); 
     temp = DHT.temperature;
-    umid = DHT.humidity;*/
+    umid = DHT.humidity;
 
-    barom();
+  //  barom();
     ArduinoCloud.update();
   }
   else
