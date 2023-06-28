@@ -1,0 +1,3 @@
+#define SECRET_SSID "coqueiro"
+#define SECRET_OPTIONAL_PASS "amigos12"
+#define SECRET_DEVICE_KEY "JVBSB2RVNKJHQZYTNHH1"
