@@ -15,6 +15,7 @@ void onLedChange();*/
 
 int temp;
 int umid;
+int servo;
 bool botao;
 bool led;
 
@@ -26,6 +27,7 @@ void initProperties(){
   ArduinoCloud.addProperty(botao, READWRITE, ON_CHANGE, NULL);
   ArduinoCloud.addProperty(umid, READWRITE, ON_CHANGE, NULL);
   ArduinoCloud.addProperty(led, READWRITE, ON_CHANGE, NULL);
+  ArduinoCloud.addProperty(servo, READWRITE, ON_CHANGE, NULL);
 
 }
 

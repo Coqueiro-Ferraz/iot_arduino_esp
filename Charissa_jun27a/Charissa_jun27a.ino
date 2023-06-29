@@ -6,13 +6,41 @@
 
 #define emx 19
 #define led1 2
+
+#define MAX_DUTY 2000
+#define MIN_DUTY 500
+
+int senoide[30] = {90,109,127,143,157,168,
+                  176,180,180,176,168,157,
+                  143,127,109,90,71,53,37,
+                  23,12,4,0,0,4,12,23,37,
+                  53,71};
+
 //#define pinoDHT11 ADC2_CH0
 bool flagEmx;
+const int pinoServo = 18;
 const int pinoDHT11 = 4; 
 String medido;
 int count = 0;
 dht DHT; 
 Adafruit_BMP085 bmp;
+
+void moveServo(int angulo)
+{
+    // código do teste do servo motor
+    int i;
+    int duty = (angulo / 180.0) * (MAX_DUTY - MIN_DUTY) + MIN_DUTY;
+    for (i = 0; i < 2; i++)
+    {
+        digitalWrite(pinoServo, 1);
+        delayMicroseconds(duty);
+        digitalWrite(pinoServo, 0);
+        delayMicroseconds(20000 - duty);
+    }
+    // fim do teste do servo motor
+}
+
+
 
 void pisca(int vezes)
 {
@@ -23,6 +51,15 @@ void pisca(int vezes)
       digitalWrite(led1,0);
       delay(500);
     }
+}
+
+void servoSeno()
+{
+  for(int i = 0; i<30; i++)
+  {
+    moveServo(senoide[i]);
+    //delay(10);
+  }
 }
 
 void barom()
@@ -61,22 +98,23 @@ void setup() {
   ArduinoCloud.begin(ArduinoIoTPreferredConnection);
   setDebugMessageLevel(2);
   ArduinoCloud.printDebugInfo();
-  
-  if (!bmp.begin()){
-  Serial.println("Sensor BMP180 não foi identificado! Verifique as conexões."); 
-  }
- 
   pinMode(emx, INPUT_PULLUP);
   pinMode(led1, OUTPUT);
+  pinMode(pinoServo, OUTPUT);
   printf("ola\n");
- pisca(3);
+  moveServo(0);
+  pisca(3);
   
+  /*if (!bmp.begin()){
+    Serial.println("Sensor BMP180 não foi identificado! Verifique as conexões."); 
+  }*/
+   
 }
 
 void loop() {
   
   //medido = DHT.Humidity;
-  if(count == 5)
+  if(count == 50)
   {
     count = 0;
     DHT.read11(pinoDHT11);
@@ -98,19 +136,22 @@ void loop() {
   }
   ArduinoCloud.update();
   flagEmx = digitalRead(emx);
-   
+  moveServo(servo); 
   if(flagEmx == LOW || botao == 1)
   {
     for(int i = 0; i < 3; i++){
-      led = 1;
+      /*led = 1;
       ArduinoCloud.update();
       digitalWrite(led1,1);
+      moveServo(180);
       delay(500);
       printf("emergencia\n");
       led = 0;
       ArduinoCloud.update();
       digitalWrite(led1,0);
-      delay(500);
+      moveServo(0);
+      delay(500);*/
+      servoSeno();
     }
   }
   delay(10);
